@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MagicOFBulgarian.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Каталог</h1>
+
+<p>
+    <a asp-action="Create">Създай </a>
+</p>
+
+<form id="searchForm" method="get">
+    <p>
+        <label for="nameSearch">Търсене по име: </label>
+        <input type="text" id="nameSearch" name="nameSearch" value="@ViewData["NameSearch"]" />
+        <button type="submit">Търси</button>
+        <a asp-action=" Index">Изчисти</a>
+    </p>
+</form>
+<p>
+<a asp-action="SearchByPrice">Търсене по цена</a>
+<br />
+<a asp-action="SearchByCategory">Търсене по категории</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+               
+                <h4 class="display">Описание</h4>
+            </th>
+            <th>
+                <h4 class="display">Продукт</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена 50+</h4>
+            </th>
+            <th>
+                <h4 class="display">Снимка</h4>
+            </th>
+            <th>
+                <h4 class="display">Категория</h4>
+            </th>
+            <th>
+                <h4 class="display">Фолклорна област</h4>
+            </th>
+            <th>
+                <h4 class="display">Пол</h4>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @string.Format("{0:C2}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price50)
+                </td>
+                <td>
+                    <img src="~/images/@item.ImageUrl" width="100%" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FolkloreArea.AreaName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderClothes.GenderName)
+                </td>
+                <td class="align-middle d-flex flex-column gap-1">
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Редактирай </a>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Детайли </a>
+                    <a class="btn btn-danger text-white btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Изтрий </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function clearSearch(searchType) {
+        if (searchType === 'name') {
+            document.getElementById("nameSearch").value = "";
+        }
+        // Add similar logic for other search types if needed
+    }
+</script>

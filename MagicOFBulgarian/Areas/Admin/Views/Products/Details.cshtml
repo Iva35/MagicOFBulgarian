@@ -1,0 +1,66 @@
+﻿@model MagicOFBulgarian.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Детайли</h1>
+
+<div>
+    <h4>Продукт</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <h5 class="display">Продукт</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Описание</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Цена</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Цена 50+</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price50)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Категория</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Фолклорна област</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FolkloreArea.AreaName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Пол</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GenderClothes.GenderName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Снимка</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            <img width="30%" src="~/images/@Model.ImageUrl" alt="product image" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактирай</a> |
+    <a asp-action="Index">Върни се</a>
+</div>

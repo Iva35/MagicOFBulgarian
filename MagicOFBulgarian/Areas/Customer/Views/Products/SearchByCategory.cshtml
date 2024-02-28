@@ -1,0 +1,99 @@
+﻿@using Microsoft.EntityFrameworkCore
+@model IEnumerable<MagicOFBulgarian.Models.Product>
+@{
+    ViewData["Title"] = "Search By Category";
+}
+
+<h1>Търсене по категория</h1>
+
+<form method="get">
+    <p>
+        <label for="categoryId">Избери категория: </label>
+        @{
+            var categories = (List<MagicOFBulgarian.Models.Category>)ViewData["Categories"];
+            var categoryId = ViewData["CategoryId"] as int?;
+        }
+        <select id="categoryId" name="categoryId" asp-items="@(new SelectList(categories, "CategoryId", "CategoryName", categoryId))">
+            <option value="">-- Всички категории --</option>
+        </select>
+        <button type="submit">Търси</button>
+        <button asp-controller="Products" asp-action="Index" onclick="clearSearch('category')">Изчисти</button>
+    </p>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <h4 class="display">Продукт</h4>
+            </th>
+            <th>
+                <h4 class="display">Описание</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена 50+</h4>
+            </th>
+            <th>
+                <h4 class="display">Снимка</h4>
+            </th>
+            <th>
+                <h4 class="display">Категория</h4>
+            </th>
+            <th>
+                <h4 class="display">Фолклорна област</h4>
+            </th>
+            <th>
+                <h4 class="display">Пол</h4>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @string.Format("{0:C2}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price50)
+                </td>
+                <td>
+                    <img src="~/images/@item.ImageUrl" width="100%" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FolkloreArea.AreaName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderClothes.GenderName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детайли</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function clearSearch(searchType) {
+        if (searchType === 'category') {
+            document.getElementById("categoryId").value = "";
+        }
+    }
+</script>

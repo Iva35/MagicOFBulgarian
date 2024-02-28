@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MagicOFBulgarian.Models.Product>
+@{
+    ViewData["Title"] = "SearchByPrice";
+}
+
+<h1>Търси по цена</h1>
+<form method=" get">
+    <p>
+        <label for="minPrice">Минимална цена: </label>
+        <input type="number" id="minPrice" name="minPrice" value="@ViewData["MinPrice"]" />
+        <label for="maxPrice">Максимална цена: </label>
+        <input type="number" id="maxPrice" name="maxPrice" value="@ViewData["MaxPrice"]" />
+        <button type="submit">Търси</button>
+        <button asp-controller="Products" asp-action="Index" onclick="clearSearch('price')">Изчисти</button>
+    </p>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <h4 class="display">Продукт</h4>
+            </th>
+            <th>
+                <h4 class="display">Описание</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена</h4>
+            </th>
+            <th>
+                <h4 class="display">Цена 50+</h4>
+            </th>
+            <th>
+                <h4 class="display">Снимка</h4>
+            </th>
+            <th>
+                <h4 class="display">Категория</h4>
+            </th>
+            <th>
+                <h4 class="display">Фолклорна област</h4>
+            </th>
+            <th>
+                <h4 class="display">Пол</h4>
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @string.Format("{0:C2}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price50)
+                </td>
+                <td>
+                    <img src="~/images/@item.ImageUrl" width="100%" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FolkloreArea.AreaName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderClothes.GenderName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детайли</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function clearSearch(searchType) {
+        if (searchType === 'price') {
+            document.getElementById("minPrice").value = "";
+            document.getElementById("maxPrice").value = "";
+        }
+        submitForm();
+    }
+
+    function submitForm() {
+        document.getElementById("searchForm").submit();
+    }
+</script>

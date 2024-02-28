@@ -1,0 +1,74 @@
+﻿@model MagicOFBulgarian.Models.NewModelView.ProductImage
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust the layout path as needed
+}
+
+<h2>Създай</h2>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Продукт</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Описание</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Цена</label>
+        <input asp-for="Price" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price50" class="control-label">Цена 50+</label>
+        <input asp-for="Price50" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Price50" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ImageUrl" class="control-label">Снимка</label>
+        <input asp-for="ImageUrl" type="file" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label">Категория</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AreaId" class="control-label">Фолклорна област</label>
+        <select asp-for="AreaId" class="form-control" asp-items="ViewBag.AreaId"></select>
+        <span asp-validation-for="AreaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GenderId" class="control-label">Пол</label>
+        <select asp-for="GenderId" class="form-control" asp-items="ViewBag.GenderId"></select>
+        <span asp-validation-for="GenderId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Създай" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Върни се</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

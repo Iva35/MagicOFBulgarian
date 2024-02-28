@@ -1,0 +1,161 @@
+﻿@model MagicOFBulgarian.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+<form method="post">
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-gradient text-light py-4" style="
+             background-color: gray">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-white text-uppercase">@Model.Title</h3>
+                    <p class="text-white-50 fw-semibold mb-0">@Model.FolkloreArea.AreaName</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="py-3">
+                <div class="row">
+                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                        <a class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase" asp-action="Index">
+                            <small>Към начална страница</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+                        <img src="~/images/@Model.ImageUrl" width="100%" class="rounded" />
+                    </div>
+                    <div class="col-12 col-lg-6 offset-lg-1">
+
+                        <div class="col-12 col-md-6 pb-4">
+                            <span class="badge">@Model.Category.CategoryName</span>
+                        </div>
+                        <div class="row pl-2 my-3">
+                            <p class="text-secondary lh-sm">Описание на продукта</p>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">@Model.Description</h6>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50  pb-2">
+                                Ценова листа:
+                                <span class="text-decoration-line-through">
+                                    @*  @Model.Price *@
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">51-100</div>
+                            </div>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>Цени</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@string.Format("{0:C2}", Model.Price)</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@string.Format("{0:C2}", Model.Price50)</div>
+                            </div>
+                        </div>
+                        <div class="row pl-2 mb-3">
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-primary text-white border-0 fw-semibold"
+                                          id="inputGroup-sizing-default">
+                                        Count
+                                    </span>
+                                    <input type="number" value="1" class="form-control text-end"
+                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 pb-1">
+                                <button type="submit"
+                                        class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold"
+                                        asp-controller="ShoppingCarts" asp-action="Create">
+                                    Add to Cart (Comming Soon...)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@* <h1>Детайли</h1>
+
+<div>
+    <h4>Продукт</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <h5 class="display">Продукт</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Описание</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Цена</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Цена 50+</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price50)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Категория</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Фолклорна област</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FolkloreArea.AreaName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Пол</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GenderClothes.GenderName)
+        </dd>
+        <dt class = "col-sm-2">
+            <h5 class="display">Снимка</h5>
+        </dt>
+        <dd class = "col-sm-10">
+            <img width="30%" src="~/images/@Model.ImageUrl" alt="product image" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактирай</a> |
+    <a asp-action="Index">Върни се</a>
+</div>
+ *@
