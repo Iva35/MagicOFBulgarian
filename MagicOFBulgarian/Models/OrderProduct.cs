@@ -7,14 +7,16 @@ namespace MagicOFBulgarian.Models
     {
         [Key] 
         public int Id { get; set; }
+        public int OrderId { get; set; }
         [Required]
         [ForeignKey("OrderId")]
-        public int OrderID { get; set; }
+        public Order Order { get; set; }
         
+        public int ProductId { get; set; }
 
         [Required]
         [ForeignKey("ProductId")]
-        public int ProductID { get; set; }
+        public Product Product { get; set; }
            
 
     }

@@ -1,5 +1,6 @@
 ﻿using MagicOFBulgarian.Data.Domain;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MagicOFBulgarian.Models
 {
@@ -9,12 +10,15 @@ namespace MagicOFBulgarian.Models
         [Key]
         public int Id { get; set; }
 
-
-        [Required] 
         public string CustomerID { get; set; }
-       
-        
+
         [Required]
-        public string UserAddressId { get; set; }
+        [ForeignKey("CustomerID")]
+        public  CustomerUser Customer { get; set; }
+       
+        public int UserAddressId { get; set; }
+        [Required]
+        [ForeignKey("AddressID")]
+        public Address UserAddress { get; set; }
     }
 }

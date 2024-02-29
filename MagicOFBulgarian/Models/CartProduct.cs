@@ -11,15 +11,16 @@ namespace MagicOFBulgarian.Models
         [Key]
         public int Id { get; set; }
 
+        public int ProductId {  get; set; }
         [Required]
         [ForeignKey("ProductId")]
-        public int ProductId {  get; set; }
        
-
+        public Product Product { get; set; }
+        public int CartId { get; set; }
 
         [Required]
         [ForeignKey("CartId")]
-        public int CartId { get; set; }
+        public ShoppingCart Cart { get; set;}
        
 
         [Required]

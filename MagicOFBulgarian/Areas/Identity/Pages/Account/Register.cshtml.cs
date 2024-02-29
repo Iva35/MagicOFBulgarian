@@ -19,6 +19,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+using MagicOFBulgarian.Data;
+using MagicOFBulgarian.Models;
 
 namespace MagicOFBulgarian.Areas.Identity.Pages.Account
 {
@@ -30,12 +34,14 @@ namespace MagicOFBulgarian.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<CustomerUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<CustomerUser> userManager,
             IUserStore<CustomerUser> userStore,
             SignInManager<CustomerUser> signInManager,
-            ILogger<RegisterModel> logger
+            ILogger<RegisterModel> logger,
+            ApplicationDbContext context
             )
         {
             _userManager = userManager;
@@ -43,6 +49,7 @@ namespace MagicOFBulgarian.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _context= context;
             
         }
 
@@ -132,6 +139,13 @@ namespace MagicOFBulgarian.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.EGN = Input.EGN;
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var cart = new ShoppingCart {
+                    Customer =user,
+                    CustomerId = user.Id,
+                    Price=0,
+
+                };
+                await _context.ShoppingCarts.AddAsync(cart);
 
                 if (result.Succeeded)
                 {

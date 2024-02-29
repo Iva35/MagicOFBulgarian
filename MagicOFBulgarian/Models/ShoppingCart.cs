@@ -10,10 +10,11 @@ namespace MagicOFBulgarian.Models
         [Key]
         public int Id { get; set; }
         
+        public string CustomerId { get; set; }
         
         [Required]
         [ForeignKey("CustomerId")]
-        public string CustomerId { get; set; }
+        public CustomerUser Customer { get; set; }
 
         [Required]
         public double Price { get; set; }

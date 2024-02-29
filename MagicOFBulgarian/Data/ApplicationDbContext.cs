@@ -15,6 +15,12 @@ namespace MagicOFBulgarian.Data
         public DbSet<FolkloreArea> FolkloreAreas{get; set; }
         public DbSet<GenderClothes> GenderClothes { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<CartProduct> CartProducts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<UserAddresses> UserAddresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
