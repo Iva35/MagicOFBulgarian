@@ -5,15 +5,13 @@
 }
 
 
-<p>
-	<a asp-action="Create">Създай </a>
-</p>
+
 <form id="searchForm" method="get">
 	<p>
 		<label for="nameSearch">Search by Name: </label>
 		<input type="text" id="nameSearch" name="nameSearch" value="@ViewData["NameSearch"]" />
-		<button type="submit">Search</button>
-		<button type="button" onclick="clearSearch('name')">Clear</button>
+		<button type="submit">Търси</button>
+        <button type="button" onclick="clearSearch('name') ">Изчисти</button>
 	</p>
 </form>
 <p>
@@ -145,7 +143,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 
 <script>
     function clearSearch(searchType) {
@@ -154,4 +152,4 @@
         }
         // Add similar logic for other search types if needed
     }
-</script> *@
+</script> 

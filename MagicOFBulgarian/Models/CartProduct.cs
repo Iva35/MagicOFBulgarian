@@ -25,7 +25,7 @@ namespace MagicOFBulgarian.Models
 
         [Required]
         [Range(1, 100,ErrorMessage="Enter valid number between 1 and 100")]
-        public int Quantity;
+        public int Quantity { get; set; }
 
         [Required]
         [DefaultValue(0)]

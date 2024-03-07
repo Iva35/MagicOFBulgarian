@@ -15,7 +15,7 @@
         <label for="nameSearch">Търсене по име: </label>
         <input type="text" id="nameSearch" name="nameSearch" value="@ViewData["NameSearch"]" />
         <button type="submit">Търси</button>
-        <a asp-action=" Index">Изчисти</a>
+        <button type="button" onclick="clearSearch('name') ">Изчисти</button>
     </p>
 </form>
 <p>

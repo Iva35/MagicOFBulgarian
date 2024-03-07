@@ -4,7 +4,9 @@ using MagicOFBulgarian.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Signing;
+using System.Security.Claims;
 
 
 namespace MagicOFBulgarian.Areas.Customer.Controllers
@@ -22,7 +24,7 @@ namespace MagicOFBulgarian.Areas.Customer.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var cart = _context.ShoppingCarts.Where(u=> u.CustomerId == userId).FirstOrDefault();
@@ -31,68 +33,79 @@ namespace MagicOFBulgarian.Areas.Customer.Controllers
                 RedirectToRoute("~/Customer/Home");
             }
             var cp = _context.CartProducts.Where(u=>u.CartId.Equals(cart.Id)).AsEnumerable();
-            var ids = (from prod in cp select prod.ProductId).AsEnumerable();
-            if (ids == null) RedirectToAction("sskdad");
-            
+            var ids = (from prod in cp select prod.ProductId).ToHashSet();
+            if (ids.Count == 0) return NotFound();            
             var products = new Dictionary<Product, CartProduct>();
-            if(products.Count!=0)
-            foreach(var id in ids)
+            if (ids.Count != 0)
             {
-                var product = _context.Products.Where(x=>x.Id.Equals(id)).FirstOrDefault();
-                var cartp = cp.Where(x=>x.ProductId.Equals(id)).FirstOrDefault();
-                products.Add(product,cartp);
-            }
+                foreach(var id in ids)
+                {
+                    var product = _context.Products.Where(x=>x.Id.Equals(id)).FirstOrDefault();
+                    var cartp = cp.Where(x=>x.ProductId.Equals(id)).FirstOrDefault();
+                    products.Add(product,cartp);
+                }
+
+            } 
             return View(products);
         }
 
         
 
         // GET: CartController/Create
-        public  ActionResult Create(int? product ,int? quantity)
+        public  ActionResult Create()
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var cart = _context.ShoppingCarts.Where(u => u.CustomerId == userId).FirstOrDefault();
-            if(userId == default||cart==null)
-            {
-                RedirectToRoute("~/Customer/Home");
+          
 
-            }
-            CartProduct prod = _context.CartProducts
-                .Where(x => x.ProductId.Equals(product) && x.CartId.Equals(cart.Id))
-                .FirstOrDefault();
-            if(prod is null)
-            {
-                CartProduct newProd = new CartProduct {
-                    Cart = cart,
-                    CartId = cart.Id,
-                    ProductId = (int)product,
-                    Product = _context.Products.Where(x => x.Id.Equals(product)).FirstOrDefault()
-
-                
-                };
-            }
-            else
-            {
-                prod.Quantity += (int)quantity;
-            }
-             _context.SaveChanges();
-
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: CartController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(int product, IFormCollection form)
         {
-            try
+            var userId = _userManager.GetUserId(HttpContext.User);
+            Console.WriteLine(userId);
+            var cart = _context.ShoppingCarts.Where(u => u.CustomerId == userId).FirstOrDefault();
+            if (userId is null || cart is null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+
+            int? quantity = int.TryParse(form["quantity"], out int parsedQuantity) ? parsedQuantity : null;
+            if (quantity is null)
             {
-                return View();
+                // Обработка на сценария, когато quantity е null
+                return RedirectToAction(nameof(Index));
             }
+
+            var prod = await _context.CartProducts.Where(x => x.ProductId == product && x.CartId == cart.Id).
+                FirstOrDefaultAsync();
+            var productToAdd = _context.Products.FirstOrDefault(x => x.Id == product);
+            if (prod is null)
+            {
+                var newProd = new CartProduct
+                {
+                    Cart = cart,
+                    CartId = cart.Id,
+                    ProductId = product,
+                    Product = productToAdd,
+                    Quantity=(int)quantity,
+                    Price = productToAdd.Price*(int)quantity,
+                    Included = true
+                };
+                cart.Price += newProd.Price;
+                _context.CartProducts.Add(newProd);
+            }
+            else
+            {
+                prod.Quantity += (int)quantity;
+                prod.Price = productToAdd.Price * prod.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: CartController/Edit/5

@@ -16,6 +16,7 @@ namespace MagicOFBulgarian.Models
         public string Description { get; set; }
         [Required]
         [Display(Name = "Price")]
+        [Range(1, 100)]
         public double Price { get; set; }
         [Required]
         [Display(Name = "Price for 50+")]

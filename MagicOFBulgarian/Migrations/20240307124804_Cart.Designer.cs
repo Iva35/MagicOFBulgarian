@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicOFBulgarian.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240228152615_Cart")]
+    [Migration("20240307124804_Cart")]
     partial class Cart
     {
         /// <inheritdoc />
@@ -156,6 +156,9 @@ namespace MagicOFBulgarian.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

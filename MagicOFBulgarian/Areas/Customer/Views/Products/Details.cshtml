@@ -75,8 +75,8 @@
                                           id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    <input type="number" value="1" class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                                    <input type="number" value="1" name="quantity" min="1"class="form-control text-end"
+                                           aria-label="Sizing example input" id="quantity"  aria-describedby="inputGroup-sizing-default" />
 
                                 </div>
                             </div>
@@ -85,8 +85,8 @@
                             <div class="col-12 col-md-6 pb-1">
                                 <button type="submit"
                                         class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold"
-                                        asp-controller="ShoppingCarts" asp-action="Create">
-                                    Add to Cart (Comming Soon...)
+                                       asp-area="Customer"  asp-controller="Cart" asp-action="Create" asp-route-product="@Model.Id" >
+                                    Добави в количката
                                 </button>
                             </div>
                         </div>
